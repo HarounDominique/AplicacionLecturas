@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Contador extends Thread implements Serializable {
+private class Reloj extends Thread implements Serializable {
     private boolean relojFuncionando = false;
 
     public void iniciar() {
@@ -25,22 +25,20 @@ public class Contador extends Thread implements Serializable {
             try {
                 sleep(1000);
                 Platform.runLater(() -> {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                        //relojLabel.setText(LocalDateTime.now().format(formatter));
+                        if (checkBoxAlarm.isSelected()) {
+                            LocalTime horaAlarma = LocalTime.of(Integer.parseInt(hora.getText()), Integer.parseInt(minutos.getText()), 00);
 
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-                    relojLabel.setText(LocalDateTime.now().format(formatter));
-                    if (checkBoxAlarm.isSelected()) {
-                        LocalTime horaAlarma = LocalTime.of(Integer.parseInt(hora.getText()), Integer.parseInt(minutos.getText()), 00);
-
-                        if (horaAlarma.equals(LocalTime.parse(relojLabel.getText()))) {
-                            for (int i = 0; i < 50; i++) {
-                                System.out.println("ALARMA");
-
+                            if (horaAlarma.equals(LocalTime.parse(relojLabel.getText()))) {
+                                for (int i = 0; i < 50; i++) {
+                                    System.out.println("ALARMA");
+                                }
                             }
+                        } else {
                         }
-                    } else {
 
 
-                    }
                 });
             } catch (InterruptedException e) {
                 System.out.println("El reloj se ha detenido inesperadamente.");
@@ -50,8 +48,9 @@ public class Contador extends Thread implements Serializable {
     }
 
     //COnstructor vacío necesario para que pueda emplearse como un componente y reutilizarse
-    public Contador() {
+    public Reloj() {
 
     }
 
 }
+
